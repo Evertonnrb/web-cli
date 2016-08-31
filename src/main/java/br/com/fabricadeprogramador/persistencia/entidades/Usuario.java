@@ -29,6 +29,11 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	@Override
+	public String toString() {
+		return "Usuario: id "+id +"\n"+ "Nome : " + nome +"\n"+"Login: "+login+"\n"+"Senha : "+ senha;
+	}
+	
 	
 	
 }

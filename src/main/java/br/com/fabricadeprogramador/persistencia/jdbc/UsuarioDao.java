@@ -2,7 +2,10 @@ package br.com.fabricadeprogramador.persistencia.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fabricadeprogramador.persistencia.entidades.Usuario;
 
@@ -59,5 +62,70 @@ public class UsuarioDao {
 		}
 		
 	}
-
+	public void salvar(Usuario usu){
+		if (usu.getId()!=null) {
+			alterar(usu);
+		} else {
+			cadastrar(usu);
+		}
+	}
+	/**
+	 * Bucar registro no banco pelo numero do Id do usuário
+	 * @paramid é um inteiro que retorna o numero do id do usuario 
+	 * @return Objeto usuário que retorn o null quando não encontra 
+	 */
+	public Usuario BuscarPorId(Integer id){
+		String sql = "select*from usuario where id=?";
+		try (PreparedStatement prep = con.prepareStatement(sql);){
+			prep.setInt(1,id);
+			ResultSet resul = prep.executeQuery();
+			if(resul.next()){
+				Usuario usu = new Usuario();
+				usu.setId(resul.getInt("id"));
+				usu.setNome(resul.getString("nome"));
+				usu.setLogin(resul.getString("login"));
+				usu.setSenha(resul.getString("login"));
+				
+				return usu;
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return JOptionPane.showMessageDialog(null,"Nao encontrado");
+		return null;
+	}
+	/**
+	 * Realiza a busca de todos o usuarios da tabela usuarios
+	 * @return uma lista de objetos usuarios
+	 */
+	public List<Usuario> buscarTodos(){
+		
+		String sql = "select*from usuario";
+		List<Usuario>lista = new ArrayList <Usuario>();
+		try (PreparedStatement prep = con.prepareStatement(sql);){
+			
+			ResultSet resul = prep.executeQuery();
+			while(resul.next()){
+				Usuario usu = new Usuario();
+				usu.setId(resul.getInt("id"));
+				usu.setNome(resul.getString("nome"));
+				usu.setLogin(resul.getString("login"));
+				usu.setSenha(resul.getString("login"));
+				
+				lista.add(usu);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//return JOptionPane.showMessageDialog(null,"Nao encontrado");
+		return lista;
+	}
 }
