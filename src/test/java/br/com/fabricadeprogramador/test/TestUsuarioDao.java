@@ -11,8 +11,19 @@ public class TestUsuarioDao {
 	public static void main(String[] args) {
 		// buscarPorId();
 		// testCadastrar();
-		//testExcluir();
-		testBuscarTodos();
+		// testExcluir();
+		//testBuscarTodos();
+		testAutenticar();
+	}
+
+	private static void testAutenticar() {
+		UsuarioDao usuDao = new UsuarioDao();
+		Usuario usu = new Usuario();
+		usu.setLogin(JOptionPane.showInputDialog("Digite o login"));
+		usu.setSenha(JOptionPane.showInputDialog("Digite a senha"));
+		Usuario usuRetorno = usuDao.autenticar(usu);
+		JOptionPane.showMessageDialog(null, usuRetorno);	
+		//System.out.println(usuRetorno);
 	}
 
 	public static void testCadastrar() {
@@ -85,7 +96,8 @@ public class TestUsuarioDao {
 		// Usuario usu = usuDao.BuscarPorId(3);
 		JOptionPane.showMessageDialog(null, usu.toString());
 	}
-	public static void testBuscarTodos(){
+
+	public static void testBuscarTodos() {
 		UsuarioDao usuDao = new UsuarioDao();
 		List<Usuario> lista = usuDao.buscarTodos();
 		for (Usuario u : lista) {
